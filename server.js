@@ -14,22 +14,33 @@ const openai = new OpenAI({
     apiKey: process.env.OPENAI_KEY,
 });
 
-app.use(express.json()); // for parsing application/json
+// Middleware to parse request bodies. If using Express 4.16.0 or newer, you can use express.urlencoded({extended: true})
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+// Serve static files
+app.use(express.static('public'));
 
 app.post('/generate', async (req, res) => {
-  const prompt = req.body.prompt;
+
+    console.log('Endpoint /generate hit with data:', req.body);
+
+    // Get the user input from the html form
+  const userInput = req.body.textInput;
   
-  if (!prompt) {
-    return res.status(400).send('Prompt is required');
-  }
+//   if (!userInput) {
+//     return res.status(400).send('Prompt is required');
+//   }
 
   try {
-    const completion = await openai.chat.completions.create({
-        messages: [{ role: "system", content: "You are a helpful assistant." }],
+    const response = await openai.chat.completions.create({
+        messages: [{ role: "user", content: "You are a helpful assistant who speaks in pirate lingo." }],
         model: "gpt-3.5-turbo",
+        max_tokens: 150,
     });
+    console.log(response);
 
-    res.json({ response: completion.choices[0] });
+    res.json({ response: response.choices[0] });
   } catch (error) {
     console.error(error);
     res.status(500).send('Error calling OpenAI API');
@@ -39,4 +50,3 @@ app.post('/generate', async (req, res) => {
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
 });
-
