@@ -38,7 +38,7 @@ app.post('/generate', async (req, res) => {
         model: "gpt-3.5-turbo",
         max_tokens: 150,
     });
-    console.log('!!!!!!!', response.choices[0].message.content);
+    // console.log('!!!!!!!', response.choices[0].message.content);
 
     res.json({ response: response.choices[0].message.content });
   } catch (error) {
