@@ -9,40 +9,41 @@
 
     <!-- Submission form with submit button -->
     <h2>Text Submission Form</h2>
-    <form action="/submit-text" method="post">
+    <form id="textSubmissionForm">
         <label for="textInput">Enter text:</label><br>
         <input type="text" id="textInput" name="textInput" required><br><br>
         <input type="submit" value="Submit">
     </form>
+    
 
     <!-- Textbox for displaying API response -->
     <h2>API Response</h2>
     <textarea id="apiResponse" rows="4" cols="50" readonly></textarea>
 
     <script>
-    document.querySelector('form').addEventListener('submit', function(event) {
-        event.preventDefault(); 
+        document.querySelector('#textSubmissionForm').addEventListener('submit', function(event) {
+            event.preventDefault(); 
+            
+            const userInput = document.getElementById('textInput').value;
         
-        const userInput = document.getElementById('textInput').value;
-
-        fetch('/submit-text', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ textInput: userInput })
-        })
-        .then(response => response.json())
-        .then(data => {
-            // Display the response in the textarea
-            document.getElementById('apiResponse').value = `Response from OpenAI: ${data.response}`;
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            document.getElementById('apiResponse').value = 'Failed to get response from API.';
+            fetch('/generate', { // This now matches your server endpoint
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ textInput: userInput })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Display the response in the textarea
+                document.getElementById('apiResponse').value = `${data.response}`;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('apiResponse').value = 'Failed to get response from API.';
+            });
         });
-    });
-    </script>
+        </script>
     
 </body>
 </html>

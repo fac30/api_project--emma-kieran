@@ -28,9 +28,9 @@ app.post('/generate', async (req, res) => {
     // Get the user input from the html form
   const userInput = req.body.textInput;
   
-//   if (!userInput) {
-//     return res.status(400).send('Prompt is required');
-//   }
+  if (!userInput) {
+    return res.status(400).send('Prompt is required');
+  }
 
   try {
     const response = await openai.chat.completions.create({
@@ -38,9 +38,9 @@ app.post('/generate', async (req, res) => {
         model: "gpt-3.5-turbo",
         max_tokens: 150,
     });
-    console.log(response);
+    console.log('!!!!!!!', response.choices[0].message.content);
 
-    res.json({ response: response.choices[0] });
+    res.json({ response: response.choices[0].message.content });
   } catch (error) {
     console.error(error);
     res.status(500).send('Error calling OpenAI API');
