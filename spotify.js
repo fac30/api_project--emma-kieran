@@ -2,12 +2,6 @@
 const express = require('express');
 require('dotenv').config() 
 
-if (!process.env.CLIENT_ID || !process.env.CLIENT_SECRET || !process.env.REDIRECT_URL) {
-    console.error('Missing required environment variables. Check CLIENT_ID, CLIENT_SECRET, and REDIRECT_URL in your .env file.');
-    process.exit(1); // Exit the application if the environment variables are not set
-}
-
-
 //spotify
 const SpotifyWebApi = require('spotify-web-api-node');
 
