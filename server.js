@@ -21,9 +21,7 @@ app.use(express.json());
 // Serve static files
 app.use(express.static('public'));
 
-app.post('/generate', async (req, res) => {
-
-    console.log('Endpoint /generate hit with data:', req.body);
+app.post('/generate-song-list', async (req, res) => {
 
     // Get the user input from the html form
   const userInput = req.body.textInput;
@@ -32,19 +30,36 @@ app.post('/generate', async (req, res) => {
     return res.status(400).send('Prompt is required');
   }
 
-  try {
-    const response = await openai.chat.completions.create({
-        messages: [{ role: "user", content: "You are a helpful assistant who speaks in pirate lingo." }],
-        model: "gpt-3.5-turbo",
-        max_tokens: 150,
-    });
-    // console.log('!!!!!!!', response.choices[0].message.content);
+    // Initialise a conversation with system message
+    let conversationLog = [{ role: 'system', content: "You are a friendly chatbot." }];
 
-    res.json({ response: response.choices[0].message.content });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Error calling OpenAI API');
-  }
+    // Add user message to conversation log
+    conversationLog.push({
+        role: 'user',
+        content: message.content
+    });
+
+    try {
+        // Call API to generate response
+        const result = await openai.chat.completions.create({
+            model: 'gpt-3.5-turbo',
+            messages: conversationLog.map(({ role, content }) => ({ role, content }))
+        });
+
+        // Log the result to see if it's populated
+        console.log('Result:', result);
+
+        // If a message is generated, send as reply
+        if ((result['choices'][0]['message']['content'])) {
+            console.log('Generated message:', result['choices'][0]['message']['content']);
+            message.reply(result['choices'][0]['message']['content']);
+        } else {
+            console.log('No message generated.');
+        }
+    } catch (error) {
+        console.error('Error while calling OpenAI:', error);
+        return;
+    }
 });
 
 app.listen(port, () => {
