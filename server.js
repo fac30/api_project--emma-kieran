@@ -3,7 +3,6 @@ const express = require('express');
 const { OpenAI } = require('openai');
 require('dotenv').config();
 
-
 const app = express();
 
 // Set the port to 3000
@@ -21,6 +20,7 @@ app.use(express.json());
 // Serve static files
 app.use(express.static('public'));
 
+// OpenAI API endpoint
 app.post('/generate', async (req, res) => {
   // Get the user input from the HTML form
   const userInput = req.body.textInput;
@@ -64,6 +64,9 @@ app.post('/generate', async (req, res) => {
   }
 });
 
+
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
 });
+
+
