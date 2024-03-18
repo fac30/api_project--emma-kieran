@@ -66,8 +66,6 @@ app.get('/callback', async (req, res) => {
         }
         res.status(500).send('Error getting Tokens');
     });
-    
-
 });
 
 
@@ -97,7 +95,7 @@ app.get('/play', async (req, res) => {
 
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
-  });
+});
   
   
   
