@@ -21,45 +21,47 @@ app.use(express.json());
 // Serve static files
 app.use(express.static('public'));
 
-app.post('/generate-song-list', async (req, res) => {
-
-    // Get the user input from the html form
+app.post('/generate', async (req, res) => {
+  // Get the user input from the HTML form
   const userInput = req.body.textInput;
-  
+
   if (!userInput) {
-    return res.status(400).send('Prompt is required');
+      return res.status(400).send('Prompt is required');
   }
 
-    // Initialise a conversation with system message
-    let conversationLog = [{ role: 'system', content: "You are a friendly chatbot." }];
+  // Dynamically generate the prompt with user input
+  const dynamicPrompt = `Generate a list of creative song titles based on the theme: ${userInput}`;
 
-    // Add user message to conversation log
-    conversationLog.push({
-        role: 'user',
-        content: message.content
-    });
+  // Initialise a conversation with a system message
+  let conversationLog = [
+      { role: 'system', content: "You are a highly creative AI capable of generating song titles." },
+      { role: 'user', content: dynamicPrompt }
+  ];
 
-    try {
-        // Call API to generate response
-        const result = await openai.chat.completions.create({
-            model: 'gpt-3.5-turbo',
-            messages: conversationLog.map(({ role, content }) => ({ role, content }))
-        });
+  try {
+      // Call the API to generate a response
+      const result = await openai.chat.completions.create({
+          model: 'gpt-3.5-turbo',
+          messages: conversationLog.map(({ role, content }) => ({ role, content }))
+      });
 
-        // Log the result to see if it's populated
-        console.log('Result:', result);
+      // Check the result
+      console.log('Result:', result);
 
-        // If a message is generated, send as reply
-        if ((result['choices'][0]['message']['content'])) {
-            console.log('Generated message:', result['choices'][0]['message']['content']);
-            message.reply(result['choices'][0]['message']['content']);
-        } else {
-            console.log('No message generated.');
-        }
-    } catch (error) {
-        console.error('Error while calling OpenAI:', error);
-        return;
-    }
+      // If a message is generated, format and send as reply
+      if (result.choices[0].message.content) {
+          console.log('Generated message:', result.choices[0].message.content);
+          // Assuming the titles are separated by new lines in the AI response
+          const titles = result.choices[0].message.content.trim().split('\n');
+          res.json({ songTitles: titles });
+      } else {
+          console.log('No message generated.');
+          res.status(500).send('Failed to generate song titles.');
+      }
+  } catch (error) {
+      console.error('Error while calling OpenAI:', error);
+      res.status(500).send('An error occurred while generating song titles.');
+  }
 });
 
 app.listen(port, () => {
