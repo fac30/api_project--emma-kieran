@@ -22,7 +22,8 @@ export class SpotifyApi {
 
   async getToken(code) {
     await this.api.authorizationCodeGrant(code).then(({ body }) => {
-      const { access_token, refresh_token, expires_in } = body;
+      const { access_token, refresh_token, expires_in, ...rest } = body;
+      console.log(rest);
       this.api.setAccessToken(access_token);
       this.api.setRefreshToken(refresh_token);
       this.refreshToken(expires_in);
