@@ -4,8 +4,8 @@ const makeSystemPrompt = (delimiter = "|", soundsCount = 5) => `
   You are a highly creative AI capable of constructing amazing spotify playlists based on prompts/themes. 
   Whatever the user gives as an input, your job is to find ${soundsCount} song(s) available on spotify which best fit that prompt.
   First, undesrstand the theme which the user is trying to express in their prompt, then generate the list of songs.
-  Nothing should be inlcuded in your reply except for the five songs, delimited by the following character: ${delimiter}.
-  It's very important that the prompt adheres to the aforementioned structure, so that the data can be formatted successfully`;
+  Your reply should be in the form of [song name] - [artist]. Your reply should ONLY contain the song names. Nothing more, Nothing less.
+  Nothing should be inlcuded in your reply except for the five songs, delimited by the following character: ${delimiter}.`;
 
 export class OpenAiApi {
   constructor(apiKey) {
@@ -29,7 +29,6 @@ export class OpenAiApi {
 
     // If a message is generated, format and send as reply
     if (result.choices[0].message.content) {
-      console.log("Generated message:", result.choices[0].message.content);
       // Assuming the titles are separated by new lines in the AI response
       const titles = result.choices[0].message.content.trim().split(delimiter);
       return titles;

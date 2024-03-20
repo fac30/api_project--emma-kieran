@@ -14,23 +14,24 @@ const openAi = new OpenAiApi(OPENAI_KEY);
 
 const app = express();
 
-app.use(
-  express.urlencoded({ extended: true }),
-  express.json(),
-  cors(),
-  express.static("public")
-);
+app.use(express.urlencoded({ extended: true }), express.json(), cors());
 
 app.get("/login", function (req, res) {
   res.redirect(spotify.getLoginUrl());
 });
 
-app.get("/", async (req, res) => {
+app.get("/", async (req, res, next) => {
   const code = req.query.code;
   if (code) {
-    await spotify.getToken(req.query.code, res);
+    try {
+      await spotify.getToken(req.query.code);
+    } catch (e) {
+      console.error("Something went wrong");
+    }
   }
+  next();
 });
+app.use("/", express.static("public/root"));
 
 app.post("/generate", async (req, res) => {
   // Get the user input from the HTML form
@@ -41,8 +42,8 @@ app.post("/generate", async (req, res) => {
 
   try {
     const titles = await openAi.generateSongTitles(userInput);
-    spotify.generatePlaylistFromtitles(titles);
-    // res.json({ songTitles: titles });
+    // spotify.generatePlaylistFromtitles(titles);
+    res.json({ songTitles: titles });
   } catch (e) {
     res.status(500).send("An error occurred while generating song titles.");
   }

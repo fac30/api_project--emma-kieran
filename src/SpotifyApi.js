@@ -5,7 +5,7 @@ export class SpotifyApi {
     this.hasToken = false;
 
     this.clientId = clientId;
-    this.secret = clientSecret;
+    this.clientSecret = clientSecret;
     this.redirectUri = redirectUri;
     this.api = new SpotifyWebApi({ clientSecret, clientId, redirectUri });
   }
@@ -17,13 +17,13 @@ export class SpotifyApi {
       "user-read-playback-state",
       "user-modify-playback-state",
     ];
-    return this.api.createAuthorizeURL(scopes, this.secret);
+    return this.api.createAuthorizeURL(scopes);
   }
 
   async getToken(code) {
     await this.api.authorizationCodeGrant(code).then(({ body }) => {
       const { access_token, refresh_token, expires_in, ...rest } = body;
-      console.log(rest);
+      console.log({ body });
       this.api.setAccessToken(access_token);
       this.api.setRefreshToken(refresh_token);
       this.refreshToken(expires_in);

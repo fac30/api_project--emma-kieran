@@ -32,3 +32,7 @@ document
           "Failed to get response from API.";
       });
   });
+
+document.getElementById("login-button").addEventListener("click", function () {
+  window.location.href = "/login";
+});
