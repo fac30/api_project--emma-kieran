@@ -14,6 +14,11 @@ You require node.js and npm to run this project.  You can check if they are inst
 
 If you do not have node.js and npm installed, follow instructions to install them depending on whether you are running the software in a Mac, Windows or Linux environment.
 
+## Clone the repository
+
+Run the command:
+`git clone git@github.com:fac30/api_project--emma-kieran.git`
+
 ### Install dependencies and run the bot
 Create a folder for the program and navigate to it:
 
