@@ -16,11 +16,14 @@ If you do not have node.js and npm installed, follow instructions to install the
 
 ## Clone the repository
 
+Create a folder for the program and navigate to it:
+
 Run the command:
 `git clone git@github.com:fac30/api_project--emma-kieran.git`
 
 ### Install dependencies and run the bot
-Create a folder for the program and navigate to it:
+
+In the program folder, run the commands:
 
 `npm init -y`
 
@@ -37,3 +40,26 @@ A [`.env` file](https://blog.bitsrc.io/a-gentle-introduction-to-env-files-9ad424
 ### Configuration
 There is a `.env.template` file that contains keys readable by the rest of the code. Values should replace the `..._HERE` text. 
 
+Using your IDE, create a .env file and set it up as pre the .env.template
+
+### Obtaining Spotify Client ID and Client Secret
+
+Navigate to: 
+
+`https://developer.spotify.com/`
+
+Create an account, the navigate to Dashboard, then click on Create App.  Select the app and then you can name it.  Following that in 'Redirect URIs':
+
+`http://localhost:3000`
+
+Now at the bottom, click the check box for Web API.  You can now save this app.
+
+Under settings you can find Client ID and Client secret, copy those into your .env file.
+
+### Obtaining OpenAI API key
+
+Navigate to:
+
+`https://openai.com/blog/openai-api`
+
+Create an account and login, select API and then on the far left select API keys.  Here you can create a new API key.  This should be copied into the .env file

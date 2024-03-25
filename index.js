@@ -31,6 +31,7 @@ app.get("/", async (req, res, next) => {
   }
   next();
 });
+
 app.use("/", express.static("public/root"));
 
 app.post("/generate", async (req, res) => {

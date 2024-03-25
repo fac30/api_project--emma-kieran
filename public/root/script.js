@@ -28,14 +28,17 @@ function embedSpotifyPlaylist(playlistId) {
   const iframe = document.createElement("iframe");
 
   iframe.setAttribute("src", embedUrl);
-  iframe.setAttribute("width", "300");
-  iframe.setAttribute("height", "380");
+  iframe.style.width = "100%"; // Ensure iframe takes full width of its container
+  iframe.style.height = "380px"; // Set a fixed height or adjust as needed
   iframe.setAttribute("frameborder", "0");
   iframe.setAttribute("allowtransparency", "true");
   iframe.setAttribute("allow", "encrypted-media");
 
-  console.info(embedUrl);
-
-  // Assuming there's a div with id="spotify-player" in your HTML where you want to embed the player
+  // Replace the contents of the spotify-player div with the new iframe
+  document.getElementById("spotify-player").innerHTML = ''; // Clear existing contents
   document.getElementById("spotify-player").appendChild(iframe);
+
+  console.info(embedUrl);
 }
+
+
