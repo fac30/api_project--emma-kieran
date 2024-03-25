@@ -1,0 +1,135 @@
+/* Color Scheme Variables */
+:root {
+    --primary-background-color: #2F4F4F; /* Dark Slate Gray */
+    --secondary-background-color: #191970; /* Midnight Blue */
+    --primary-text-color: #F8F8FF; /* Ghost White */
+    --secondary-text-color: #B0C4DE; /* Light Steel Blue */
+    --accent-color: #CCFF00; /* Electric Lime */
+    --button-text-color: #2F4F4F; /* Dark Slate Gray */
+    --highlight-color: #00BFFF; /* Deep Sky Blue */
+  }
+  
+  body {
+    background-color: var(--primary-background-color);
+    color: var(--primary-text-color);
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+  }
+  
+  h2 {
+    color: var(--secondary-text-color);
+  }
+  
+  #login-button, #textSubmissionForm input[type="submit"] {
+    background-color: var(--accent-color);
+    color: var(--button-text-color);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    width: 30%;
+  }
+  
+  #textSubmissionForm, #apiResponse {
+    width: 70%;
+    background-color: var(--secondary-background-color);
+    color: var(--primary-text-color);
+    border: none;
+    padding: 20px;
+    border-radius: 10px;
+    box-sizing: border-box;
+  }
+  
+  #textSubmissionForm {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  #textSubmissionForm label, #textSubmissionForm input[type="text"] {
+    width: 100%;
+  }
+  
+  #textSubmissionForm input[type="text"], #textInput {
+    width: 100%; /* Maintains full width relative to its parent element */
+    padding: 10px; /* Adjusts padding as needed */
+    border-radius: 10px; /* Keeps your design */
+    border: 1px solid var(--highlight-color); /* Keeps your design */
+    box-sizing: border-box; /* Includes padding and border in the element's total width */
+  }
+
+
+  #textInput {
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid var(--highlight-color);
+  }
+  
+  textarea#apiResponse {
+    resize: none; /* Prevents resizing */
+  }
+
+  .container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px; 
+    max-width: 1200px; 
+    margin: auto; 
+    padding: 20px;
+  }
+  
+  .form-and-response {
+    margin: 10px;
+    flex: 1; /* Allows this div to grow and fill the space */
+  }
+  
+  .placeholder-image {
+    flex-basis: 40%; 
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+  }
+  
+
+  @media (max-width: 768px) {
+    .container {
+        flex-direction: column; /* Stack the columns on small screens */
+    }
+    
+    .placeholder-image {
+        width: 100%; /* Full width for the image on small screens */
+        order: -1; /* Moves the image above the form and response */
+    }
+    
+    #textSubmissionForm, #apiResponse, #login-button {
+        width: 100%; /* Adjust form elements to full width on small screens */
+    }
+
+    #textSubmissionForm, #apiResponse, #login-button {
+      width: 90%; 
+    }
+  
+    #textSubmissionForm input[type="text"], #textSubmissionForm input[type="submit"] {
+      padding: 15px; /* Increases padding for better touch interaction */
+    }
+  
+    #login-button {
+      padding: 15px 30px; /* Larger button for easier tapping */
+    }
+  
+    #textInput, textarea#apiResponse {
+      font-size: 16px; /* Increases font size for better readability on small screens */
+    }
+  
+    h2 {
+      font-size: 20px; /* Adjusts heading size for better hierarchy visibility on small screens */
+    }
+  }
+  
+  

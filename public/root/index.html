@@ -4,20 +4,26 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>User request and api response page</title>
+    <link rel="stylesheet" href="style.css" />
     <script defer async src="script.js"></script>
   </head>
   <body>
-    <!-- Submission form with submit button -->
-    <h2>Text Submission Form</h2>
-    <button id="login-button" type="button">Spotify Login</button>
-    <form id="textSubmissionForm">
-      <label for="textInput">Enter text:</label><br />
-      <input type="text" id="textInput" name="textInput" required /><br /><br />
-      <input type="submit" value="Submit" />
-    </form>
-
-    <!-- Textbox for displaying API response -->
-    <h2>API Response</h2>
-    <textarea id="apiResponse" rows="4" cols="50" readonly></textarea>
+    <div class="container">
+      <div class="form-and-response">
+        <h2>Login to Spotify!</h2>
+        <button id="login-button" type="button">Spotify Login</button>
+        <form id="textSubmissionForm">
+          <label for="textInput">Search for a playlist:</label><br />
+          <input type="text" id="textInput" name="textInput" placeholder="Try artist or genre with mood or time period eg 'happy 60s Jazz'" required /><br /><br />
+          <input type="submit" value="Submit" />
+        </form>
+        <h2>API Response</h2>
+        <textarea id="apiResponse" rows="4" cols="50" readonly></textarea>
+      </div>
+      <div class="placeholder-image">
+        <img src="/Images/placeholder.jpg" alt="Placeholder" style="max-width:100%; height:auto;">
+      </div>
+    </div>
   </body>
+  
 </html>
