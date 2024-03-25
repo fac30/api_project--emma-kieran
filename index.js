@@ -42,9 +42,10 @@ app.post("/generate", async (req, res) => {
 
   try {
     const titles = await openAi.generateSongTitles(userInput);
-    // spotify.generatePlaylistFromtitles(titles);
-    res.json({ songTitles: titles });
+    const playlistId = await spotify.generatePlaylistFromTitles(titles);
+    res.json({ playlistId });
   } catch (e) {
+    console.log("error!:", e);
     res.status(500).send("An error occurred while generating song titles.");
   }
 });
