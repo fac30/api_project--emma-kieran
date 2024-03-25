@@ -68,28 +68,31 @@ textarea#apiResponse {
 
 .container {
     display: flex;
+    flex-direction: row; /* Ensure they are side by side */
     justify-content: space-between;
-    gap: 20px; 
-    max-width: 1200px; 
-    margin: auto; 
+    gap: 20px;
+    max-width: 1200px;
+    margin: auto;
     padding: 20px;
 }
 
+
 .form-and-response {
-    flex: 1;  
-    margin: 10px;
+    min-width: 45%;
+    flex: 1;
     display: flex;
-    flex-direction: column; 
-    gap: 10px; 
+    flex-direction: column;
+    gap: 10px;
 }
 
-.placeholder-image {
-    flex: 1;  /* Equal space distribution */
-    margin: 10px;
+#spotify-player {
     display: flex;
-    justify-content: center; 
-    align-items: center; 
+    justify-content: center;
+    align-items: center;
+    width: 100%; /* Ensure it takes full width of its flex portion */
+    flex: 1;  /* Equal space distribution with the form column */
 }
+
 
 
 @media (max-width: 768px) {
@@ -97,7 +100,7 @@ textarea#apiResponse {
         flex-direction: column;
     }
 
-    .form-and-response, .placeholder-image {
+    .form-and-response, #spotify-player {
         width: 100%; /* Each element takes full width of the screen */
         margin: 10px 0; /* Adjust margins for vertical stacking */
     }
