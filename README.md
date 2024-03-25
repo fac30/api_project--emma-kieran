@@ -23,7 +23,7 @@ Create a folder for the program and navigate to it:
 
 Now you can run the bot with the command:
 
-`npm run dev`
+`npm start`
 
 ## Setting up the `.env` file
 ### What is a `.env` file?
