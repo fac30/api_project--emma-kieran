@@ -30,5 +30,5 @@ Now you can run the bot with the command:
 A [`.env` file](https://blog.bitsrc.io/a-gentle-introduction-to-env-files-9ad424cc5ff4) is a way of storing sensitive information in key-value pairs known as environment variables. These are access keys and tokens that _shouldn't be public_.  
 
 ### Configuration
-There is a `.env.template` file that contains keys readable by the rest of the code. Values should replace the `..._HERE` text. Below is how to retrieve the relevant values. 
+There is a `.env.template` file that contains keys readable by the rest of the code. Values should replace the `..._HERE` text. 
 
