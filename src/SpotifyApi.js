@@ -16,6 +16,8 @@ export class SpotifyApi {
       "user-read-email",
       "user-read-playback-state",
       "user-modify-playback-state",
+      "playlist-modify-public",
+      "playlist-modify-private",
     ];
     return this.api.createAuthorizeURL(scopes);
   }
@@ -29,6 +31,76 @@ export class SpotifyApi {
       this.refreshToken(expires_in);
     });
     this.hasToken = true;
+  }
+
+  /**
+   * Gets the URI of a track
+   * @param {{name:string, artist:string}} songData object with name and artist of the song
+   * @private
+   */
+  async getSingleTrackURI(songData) {
+    const { name, artist } = songData;
+    const query = `track:${name} artist:${artist}`;
+    return this.api.searchTracks(query).then((data, index) => {
+      if (data.body.tracks.items.length > 0) {
+        return data.body.tracks.items[0].uri;
+      }
+    });
+  }
+
+  async findOrCreatePlaylist(userId, playlistName) {
+    const data = await this.api.getUserPlaylists(userId);
+
+    const playlist = data.body.items.find((p) => p.name === playlistName);
+
+    if (playlist) {
+      return playlist.id; // Return existing playlist ID
+    } else {
+      try {
+        const playList = await this.api.createPlaylist(playlistName, {
+          public: true,
+        });
+        return playList.body.id;
+      } catch (e) {
+        console.error("something went wrong,", e);
+      }
+
+      // return newPlaylist.body.id; // Return new playlist ID
+    }
+  }
+
+  /**
+   * Uses the spotify API to generate pa playlist from the titles
+   * It tries to use an existing playlist so it doesn't create a new one every time
+   * @param {{song:string, artist:string}[]} titles object with name and artist of the song
+   * @param {string} playlistName name of the playlist to create.
+   * @returns playlist id for the link embed
+   */
+  async generatePlaylistFromTitles(titles, playlistName = "AI playlist") {
+    try {
+      const userId = await this.api.getMe().then((data) => data.body.id);
+      console.log({ userId });
+      const playlistId = await this.findOrCreatePlaylist(userId, playlistName);
+      console.log({ playlistId });
+      // Finds all the tracks
+      const trackUris = await Promise.all(
+        titles.map((title) => this.getSingleTrackURI(title))
+      ).then((results) => results.filter((uri) => !!uri));
+      console.log({ trackUris });
+      if (!trackUris.length) {
+        return;
+      }
+
+      const playlist = await this.api.replaceTracksInPlaylist(
+        playlistId,
+        trackUris
+      );
+
+      console.log({ playlist });
+      return playlistId;
+    } catch (e) {
+      console.log("Some error, ", e);
+    }
   }
 
   // TODO: Make this fail

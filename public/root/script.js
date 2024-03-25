@@ -4,7 +4,6 @@ document
     event.preventDefault();
 
     const userInput = document.getElementById("textInput").value;
-
     fetch("/generate", {
       // Make sure this matches your server's endpoint
       method: "POST",
@@ -14,25 +13,29 @@ document
       body: JSON.stringify({ textInput: userInput }),
     })
       .then((response) => response.json())
-      .then((data) => {
-        if (data.songTitles && Array.isArray(data.songTitles)) {
-          // Join the array of song titles into a string and display in the textarea
-          document.getElementById("apiResponse").value =
-            data.songTitles.join(", ");
-        } else {
-          // If the response doesn't contain 'songTitles', log the whole response for debugging
-          console.error("Unexpected response structure:", data);
-          document.getElementById("apiResponse").value =
-            "Unexpected response structure, check console for details.";
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        document.getElementById("apiResponse").value =
-          "Failed to get response from API.";
+      .then((json) => {
+        console.log(json);
+        embedSpotifyPlaylist(json.playlistId);
       });
   });
 
 document.getElementById("login-button").addEventListener("click", function () {
   window.location.href = "/login";
 });
+
+function embedSpotifyPlaylist(playlistId) {
+  const embedUrl = `https://open.spotify.com/embed/playlist/${playlistId}`;
+  const iframe = document.createElement("iframe");
+
+  iframe.setAttribute("src", embedUrl);
+  iframe.setAttribute("width", "300");
+  iframe.setAttribute("height", "380");
+  iframe.setAttribute("frameborder", "0");
+  iframe.setAttribute("allowtransparency", "true");
+  iframe.setAttribute("allow", "encrypted-media");
+
+  console.info(embedUrl);
+
+  // Assuming there's a div with id="spotify-player" in your HTML where you want to embed the player
+  document.getElementById("spotify-player").appendChild(iframe);
+}
