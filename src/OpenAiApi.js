@@ -36,9 +36,11 @@ export class OpenAiApi {
 
       return this.getJsonFromSongs(titles);
     } else {
-      throw new Error("failsed to generate song titles.");
+      throw new Error("failed to generate song titles.");
     }
   }
+
+
 
   /**
    * Returns an array of objects containing the song information

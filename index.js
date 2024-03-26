@@ -51,6 +51,21 @@ app.post("/generate", async (req, res) => {
   }
 });
 
+app.get('/current-album', async (req, res) => {
+  try {
+    const albumInfo = await spotify.getCurrentPlaybackAlbum();
+    if (albumInfo) {
+      res.json(albumInfo);
+    } else {
+      res.status(404).send('Album information not found');
+    }
+  } catch (error) {
+    console.error('Failed to fetch album information:', error);
+    res.status(500).send('An error occurred while fetching album information.');
+  }
+});
+
+
 app.listen(PORT, () => {
   console.log(`Server running on ${REDIRECT_URI}`);
 });

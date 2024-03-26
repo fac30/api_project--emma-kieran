@@ -103,6 +103,36 @@ export class SpotifyApi {
     }
   }
 
+
+  async getCurrentPlaybackAlbum() {
+    if (!this.hasToken) {
+      console.error('Access token is required to fetch current playback state.');
+      return;
+    }
+  
+    try {
+      const playbackState = await this.api.getMyCurrentPlaybackState();
+      // Check if there's a current playback
+      if (playbackState.body && playbackState.body.item && playbackState.body.item.album) {
+        const album = playbackState.body.item.album;
+        return {
+          id: album.id,
+          name: album.name,
+          release_date: album.release_date,
+          total_tracks: album.total_tracks,
+          artists: album.artists.map(artist => artist.name),
+          images: album.images // Album cover art in various sizes
+        };
+      } else {
+        console.log('No current playback found or it does not contain album information.');
+        return null;
+      }
+    } catch (error) {
+      console.error('Failed to fetch current playback state:', error);
+      return null;
+    }
+  }  
+
   // TODO: Make this fail
   refreshToken(expires_in) {
     setInterval(

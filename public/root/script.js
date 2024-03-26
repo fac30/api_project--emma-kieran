@@ -41,4 +41,19 @@ function embedSpotifyPlaylist(playlistId) {
   console.info(embedUrl);
 }
 
-
+document.addEventListener('DOMContentLoaded', (event) => {
+  fetch('/current-album')
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error('Failed to fetch album information');
+    })
+    .then(data => {
+      const apiResponseElement = document.getElementById('apiResponse');
+      if (apiResponseElement) {
+        apiResponseElement.value = `Album Name: ${data.name}\nRelease Date: ${data.release_date}`;
+      }
+    })
+    .catch(error => console.error('Error:', error));
+});
