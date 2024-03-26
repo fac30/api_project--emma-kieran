@@ -45,19 +45,23 @@ export class OpenAiApi {
    * This function assumes that the song name is in the from songName - artistName
    * @param {string[]} songList
    */
-  getJsonFromSongs(songList) {
+  getJsonFromSongs(songListString) {
     const songs = [];
-    // A regex pattern that attempts to match song titles and artist names, considering various formats
-    const pattern = /(.+?)(?:\s*\|\s*|\s*-\s*)([^|]+)/g;
-  
-    let match;
-    while ((match = pattern.exec(songList.join('|')))) {
-      const [_, name, artist] = match;
-      if (name && artist) {
-        songs.push({ name: name.trim(), artist: artist.trim() });
-      }
+    // Split the string by the pipe delimiter to get individual song entries, if needed.
+    // Given the latest input format doesn't use pipes, split directly on the newline or use the entire string as is.
+    const entries = songListString.split(' | '); // Adjust based on actual delimiter. For newline, use .split('\n');
+
+    // Iterate over each entry and split by the dash to separate title and artist
+    for (const entry of entries) {
+        // Updated to split by dash
+        const parts = entry.split(' - ');
+        if (parts.length >= 2) {
+            const name = parts[0].trim();
+            const artist = parts.slice(1).join(' - ').trim(); // Join back any additional parts
+            songs.push({ name, artist });
+        }
     }
-  
+    console.log("Parsed Songs:", songs);
     return songs;
-  }  
+  }
 }
