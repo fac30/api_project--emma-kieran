@@ -31,6 +31,8 @@ export class OpenAiApi {
 
     // If a message is generated, format and send as reply
     if (result.choices[0].message.content) {
+      console.log("OpenAI Response Content:", result.choices[0].message.content);
+
       // Assuming the titles are separated by new lines in the AI response
       const titles = result.choices[0].message.content.trim().split(delimiter);
 
@@ -56,6 +58,7 @@ export class OpenAiApi {
         songs.push({ name: name.trim(), artist: artist.trim() });
       }
     }
+    console.log("Parsed Songs:", songs);
     return songs;
   }
 }

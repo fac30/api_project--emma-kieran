@@ -24,9 +24,11 @@ app.get("/", async (req, res, next) => {
   const code = req.query.code;
   if (code) {
     try {
+      console.log("Attempting to acquire Spotify token with code:", code);
       await spotify.getToken(req.query.code);
+      console.log("Spotify token successfully acquired");
     } catch (e) {
-      console.error("Something went wrong");
+      console.error("Something went wrong aquiring Spotify token:", e);
     }
   }
   next();
@@ -37,6 +39,7 @@ app.use("/", express.static("public/root"));
 app.post("/generate", async (req, res) => {
   // Get the user input from the HTML form
   const userInput = req.body.textInput;
+  console.log("Received generate request with input:", userInput);
   if (!userInput) {
     return res.status(400).send("Prompt is required");
   }
@@ -45,8 +48,9 @@ app.post("/generate", async (req, res) => {
     const titles = await openAi.generateSongTitles(userInput);
     const playlistId = await spotify.generatePlaylistFromTitles(titles);
     res.json({ playlistId });
+    console.log("Playlist generated successfully:", playlistId);
   } catch (e) {
-    console.log("error!:", e);
+    console.log("Failed during playlist generation!:", e);
     res.status(500).send("An error occurred while generating song titles.");
   }
 });

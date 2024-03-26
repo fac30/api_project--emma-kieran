@@ -24,12 +24,13 @@ export class SpotifyApi {
 
   async getToken(code) {
     await this.api.authorizationCodeGrant(code).then(({ body }) => {
-      const { access_token, refresh_token, expires_in, ...rest } = body;
-      console.log({ body });
-      this.api.setAccessToken(access_token);
-      this.api.setRefreshToken(refresh_token);
-      this.refreshToken(expires_in);
-    });
+      this.api.setAccessToken(body.access_token);
+      this.api.setRefreshToken(body.refresh_token);
+      console.log("Access and refresh tokens set successfully");
+      this.refreshToken(body.expires_in); 
+    }).catch(error => {
+      console.error("Error during token acquisition:", error);
+    });    
     this.hasToken = true;
   }
 
@@ -54,8 +55,10 @@ export class SpotifyApi {
     const playlist = data.body.items.find((p) => p.name === playlistName);
 
     if (playlist) {
+      console.log(`Found existing playlist: ${playlistName} with ID: ${playlist.id}`);
       return playlist.id; // Return existing playlist ID
     } else {
+      console.log(`Creating new playlist: ${playlistName}`);
       try {
         const playList = await this.api.createPlaylist(playlistName, {
           public: true,
@@ -97,9 +100,10 @@ export class SpotifyApi {
       );
 
       console.log({ playlist });
+      console.log("Successfully generated playlist with ID:", playlistId);
       return playlistId;
     } catch (e) {
-      console.log("Some error, ", e);
+      console.log("Error generating playlist, ", e);
     }
   }
 
@@ -112,16 +116,12 @@ export class SpotifyApi {
   
     try {
       const playbackState = await this.api.getMyCurrentPlaybackState();
-      // Check if there's a current playback
+      console.log("Raw Playback State:", playbackState.body); // Log raw response for debugging
       if (playbackState.body && playbackState.body.item && playbackState.body.item.album) {
         const album = playbackState.body.item.album;
         return {
-          id: album.id,
           name: album.name,
           release_date: album.release_date,
-          total_tracks: album.total_tracks,
-          artists: album.artists.map(artist => artist.name),
-          images: album.images // Album cover art in various sizes
         };
       } else {
         console.log('No current playback found or it does not contain album information.');
@@ -131,7 +131,8 @@ export class SpotifyApi {
       console.error('Failed to fetch current playback state:', error);
       return null;
     }
-  }  
+  }
+  
 
   // TODO: Make this fail
   refreshToken(expires_in) {

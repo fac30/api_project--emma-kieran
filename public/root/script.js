@@ -41,19 +41,21 @@ function embedSpotifyPlaylist(playlistId) {
   console.info(embedUrl);
 }
 
-document.addEventListener('DOMContentLoaded', (event) => {
+document.getElementById('fetchAlbumInfo').addEventListener('click', function() {
   fetch('/current-album')
     .then(response => {
-      if (response.ok) {
-        return response.json();
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
       }
-      throw new Error('Failed to fetch album information');
+      return response.json();
     })
     .then(data => {
-      const apiResponseElement = document.getElementById('apiResponse');
-      if (apiResponseElement) {
-        apiResponseElement.value = `Album Name: ${data.name}\nRelease Date: ${data.release_date}`;
-      }
+      // Assuming 'data' contains 'name' and 'release_date' fields from your server response
+      const albumInfo = `Album Name: ${data.name}\nRelease Date: ${data.release_date}`;
+      document.getElementById('apiResponse').value = albumInfo;
     })
-    .catch(error => console.error('Error:', error));
+    .catch(error => {
+      console.error('There has been a problem with your fetch operation:', error);
+      document.getElementById('apiResponse').value = 'Failed to fetch album information.';
+    });
 });
