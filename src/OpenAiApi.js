@@ -47,13 +47,17 @@ export class OpenAiApi {
    */
   getJsonFromSongs(songList) {
     const songs = [];
-    for (const song of songList) {
-      const [name, artist] = song.split("-");
-
+    // A regex pattern that attempts to match song titles and artist names, considering various formats
+    const pattern = /(.+?)(?:\s*\|\s*|\s*-\s*)([^|]+)/g;
+  
+    let match;
+    while ((match = pattern.exec(songList.join('|')))) {
+      const [_, name, artist] = match;
       if (name && artist) {
         songs.push({ name: name.trim(), artist: artist.trim() });
       }
     }
+  
     return songs;
-  }
+  }  
 }
