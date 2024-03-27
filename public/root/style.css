@@ -1,124 +1,148 @@
 :root {
-    --primary-background-color: #2F4F4F; /* Dark Slate Gray */
-    --secondary-background-color: #191970; /* Midnight Blue */
-    --primary-text-color: #F8F8FF; /* Ghost White */
-    --secondary-text-color: #B0C4DE; /* Light Steel Blue */
-    --accent-color: #CCFF00; /* Electric Lime */
-    --button-text-color: #2F4F4F; /* Dark Slate Gray */
-    --highlight-color: #00BFFF; /* Deep Sky Blue */
+  --primary-background-color: #547892; /* Dark Slate Gray */
+  --secondary-background-color: #1919705d; /* Midnight Blue */
+  --primary-text-color: #f8f8ff; /* Ghost White */
+  --secondary-text-color: #b0c4de; /* Light Steel Blue */
+  --accent-color: #8caf00; /* Electric Lime */
+  --accent-color-active: #ccff00; /* Electric Lime */
+  --button-text-color: #2f4f4f; /* Dark Slate Gray */
+  --highlight-color: #00bfff; /* Deep Sky Blue */
 }
 
 body {
-    background-color: var(--primary-background-color);
-    color: var(--primary-text-color);
-    font-family: Arial, sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    margin: 0;
+  background-color: var(--primary-background-color);
+  color: var(--primary-text-color);
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  margin: 0;
 }
 
 h2 {
-    color: var(--secondary-text-color);
+  color: var(--secondary-text-color);
 }
-
 .button {
-    background-color: var(--accent-color);
-    color: var(--button-text-color);
-    border: none;
-    padding: 10px 20px;
-    border-radius: 10px;
-    cursor: pointer;
-    margin-bottom: 20px;
-    width: 30%;
-    box-sizing: border-box;
-    display: block;
-    text-align: center;
+  background-color: var(--accent-color);
+  color: var(--button-text-color);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  min-width: 7rem;
+  max-width: 15rem;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: background-color 0.2s;
 }
 
-#textSubmissionForm, #apiResponse {
-    width: 95%;
-    background-color: var(--secondary-background-color);
-    color: var(--primary-text-color);
-    border: none;
-    padding: 20px;
-    border-radius: 10px;
-    box-sizing: border-box;
+.button:hover {
+  background-color: var(--accent-color-active);
+}
+
+.button:disabled,
+.button:hover:disabled {
+  background-color: lightgray;
+  cursor: not-allowed; /* Optionally add this to change the cursor for disabled buttons */
+  color: var(
+    --disabled-text-color
+  ); /* Optionally set a different text color for disabled buttons */
+}
+#textSubmissionForm,
+#apiResponse {
+  width: 95%;
+  background-color: var(--secondary-background-color);
+  color: var(--primary-text-color);
+  border: none;
+  padding: 20px;
+  border-radius: 10px;
+  box-sizing: border-box;
 }
 
 #textSubmissionForm {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  width: 100%;
+  padding: 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+
+  justify-self: center;
+  align-self: center;
 }
 
-#textSubmissionForm label, #textSubmissionForm input[type="text"], #textInput {
-    width: 100%;
-    padding: 10px;
-    border-radius: 10px;
-    border: 1px solid var(--highlight-color);
-    box-sizing: border-box;
+#textSubmissionForm input[type="text"],
+#textInput {
+  width: 100%;
+  max-width: 23rem;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid var(--highlight-color);
+  box-sizing: border-box;
 }
 
 textarea#apiResponse {
-    resize: none; /* Prevents resizing */
+  resize: none; /* Prevents resizing */
 }
 
 .container {
-    display: flex;
-    flex-direction: row; /* Ensure they are side by side */
-    justify-content: space-between;
-    gap: 20px;
-    max-width: 1200px;
-    margin: auto;
-    padding: 20px;
-}
-
-
-.form-and-response {
-    min-width: 45%;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  width: 60rem;
+  max-width: 90%;
+  justify-content: space-between;
+  align-items: center;
+  margin: auto;
 }
 
 #spotify-player {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%; /* Ensure it takes full width of its flex portion */
-    flex: 1;  /* Equal space distribution with the form column */
+  position: relative;
+  box-sizing: border-box;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%; /* Ensure it takes full width of its flex portion */
+  max-width: 400rem;
+  flex: 1; /* Equal space distribution with the form column */
+  min-height: 30rem;
 }
 
+#spotify-login {
+  text-align: center;
+}
 
+#spotify-form {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+}
+
+.form-and-response {
+  display: flex;
+  flex: 1;
+  margin-bottom: 1rem;
+}
+
+#spotify-player-iframe,
+#spotify-player-placeholder {
+  /* object-fit: contain; */
+  position: absolute;
+  border-radius: 1rem;
+  box-sizing: border-box;
+
+  width: 300px;
+  height: 470px;
+
+  max-width: 100%;
+}
+
+#spotify-player-placeholder {
+  height: 300px;
+}
 
 @media (max-width: 768px) {
-    .container {
-        flex-direction: column;
-    }
-
-    .form-and-response, #spotify-player {
-        width: 100%; /* Each element takes full width of the screen */
-        margin: 10px 0; /* Adjust margins for vertical stacking */
-    }
-    .placeholder-image {
-        width: 100%;
-        order: 1; 
-    }
-
-    #textSubmissionForm, #apiResponse, .button {
-        width: 90%;
-    }
-
-    #textSubmissionForm input[type="text"], #textInput, textarea#apiResponse, .button {
-        padding: 15px;
-        font-size: 16px; /* Adjusts for better readability on small screens */
-    }
-
-    h2 {
-        font-size: 20px; /* Adjusts heading size for better visibility on small screens */
-    }
+  #spotify-form {
+    flex-direction: column;
+  }
 }

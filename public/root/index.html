@@ -8,22 +8,41 @@
     <script defer async src="script.js"></script>
   </head>
   <body>
+    <br />
+    <h1>🤖 🎧 ▶️ 📋</h1>
     <div class="container">
-      <div class="form-and-response">
+      <div id="spotify-login">
         <h2>Login to Spotify!</h2>
         <button id="login-button" class="button">Spotify Login</button>
-        <form id="textSubmissionForm">
-          <label for="textInput">Search for a playlist:</label><br />
-          <input type="text" id="textInput" name="textInput" placeholder="Try artist/genre with  mood or time period eg 'happy 60s Jazz'" required /><br /><br />
-          <input type="submit" class="button" value="Submit">
-        </form>
-        <h2>Enjoy your playlist!</h2>
-        <textarea id="apiResponse" rows="4" cols="50" readonly></textarea>
       </div>
-      <div id="spotify-player">
-        <img src="/Images/placeholder.jpg" alt="Placeholder" style="max-width:100%; height:auto;">
+      <div id="spotify-form">
+        <div class="form-and-response">
+          <form id="textSubmissionForm">
+            <label for="textInput">Search for a playlist</label>
+            <input
+              type="text"
+              id="textInput"
+              name="textInput"
+              placeholder="Try artist, genre, mood or time period eg 'happy 60s Jazz'"
+              required
+            />
+            <input
+              id="submit-query"
+              type="submit"
+              class="button"
+              value="Submit"
+            />
+          </form>
+        </div>
+        <div id="spotify-player">
+          <img
+            id="spotify-player-placeholder"
+            src="/Images/placeholder.jpg"
+            alt="Placeholder"
+          />
+          <iframe id="spotify-player-iframe"></iframe>
+        </div>
       </div>
     </div>
   </body>
-  
 </html>

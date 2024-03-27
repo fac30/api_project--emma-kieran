@@ -21,18 +21,29 @@ app.get("/login", function (req, res) {
 });
 
 app.get("/", async (req, res, next) => {
-  const code = req.query.code;
-  if (code) {
+  let hasToken = spotify.hasAccessToken;
+
+  // Only attempt to get a token if a code is provided and there's no token yet
+  if (req.query.code && !hasToken) {
     try {
       await spotify.getToken(req.query.code);
-    } catch (e) {
-      console.error("Something went wrong");
+      hasToken = spotify.hasAccessToken();
+    } catch (error) {
+      console.error("Something went wrong", error);
     }
   }
-  next();
+
+  // If hasToken query parameter does not match the actual token status, redirect to correct it
+  const clientHasTokenParam = req.query.hasToken === "true";
+  if (req.query.hasToken === undefined || clientHasTokenParam !== hasToken) {
+    return res.redirect(`/?hasToken=${hasToken}`);
+  }
+
+  next(); // Continue to serving static files if everything is correct
 });
 
-app.use("/", express.static("public/root"));
+// Middleware to serve static files
+app.use(express.static("public/root"));
 
 app.post("/generate", async (req, res) => {
   // Get the user input from the HTML form

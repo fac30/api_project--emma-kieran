@@ -103,6 +103,10 @@ export class SpotifyApi {
     }
   }
 
+  get hasAccessToken() {
+    return !!this.api.getAccessToken();
+  }
+
   // TODO: Make this fail
   refreshToken(expires_in) {
     setInterval(
